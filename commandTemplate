@@ -1,0 +1,19 @@
+module.exports = {
+    name: "",
+    aliases: [],
+    description: "",
+    example: "",
+    category: "",
+    usage: "",
+    args: false,
+    ownerOnly: false,
+    hidden: false,
+    nsfw: false,
+    userPerms: [],
+    botPerms: [],
+    async execute(bot, message, args, settings) {
+
+        
+
+    }
+}
