@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { Database } = require('../Config/Config.json');
 
 module.exports = {
 	init: () => {
@@ -11,7 +12,7 @@ module.exports = {
 			family: 4,
 		};
 
-		mongoose.connect('mongodb+srv://Chibot:Rikapoo12@chidatabase.83lmz.mongodb.net/ChiBot', dbOptions);
+		mongoose.connect(Database, dbOptions);
 		mongoose.set('useFindAndModify', false);
 		mongoose.Promise = global.Promise;
 
