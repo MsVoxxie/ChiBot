@@ -17,6 +17,7 @@ module.exports = {
         //Checks
         if (!toBan) return message.reply(`\nPlease provide a user to ban.`).then(s => s.delete({ timeout: 30 * 1000 }));
         if (!toBan.bannable) return message.reply(`\nThis user is not bannable.`).then(s => s.delete({ timeout: 30 * 1000 }));
+        if (toBan.roles.cache.has("BAN_MEMBERS")) return message.reply(`\nThis user cannot be banned.`);
 
         //Init Embed
         const embed = new MessageEmbed()
