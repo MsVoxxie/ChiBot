@@ -30,6 +30,6 @@ module.exports = {
             message.channel.send({ embed: embed });
         } catch (e) {
             console.log(e);
-        }
+        };
     }
-}
+};

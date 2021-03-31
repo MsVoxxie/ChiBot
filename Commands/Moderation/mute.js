@@ -40,8 +40,8 @@ module.exports = {
                 await message.channel.send(`Created <@&${MuteRole.id}>.`).then(s => s.delete({ timeout: 30 * 1000 }));
             } catch (e) {
                 console.log(e);
-            }
-        }
+            };
+        };
 
         //Apply Role
         await toMute.roles.add(MuteRole.id);
@@ -55,6 +55,6 @@ module.exports = {
                     message.channel.send(`<@${toMute.id}> has been unmuted.`);
                 }
             }, ms(args[1]));
-        }
+        };
     }
-}
+};
