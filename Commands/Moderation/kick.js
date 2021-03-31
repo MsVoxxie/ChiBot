@@ -17,6 +17,7 @@ module.exports = {
         //Checks
         if (!toKick) return message.reply(`\nPlease provide a user to kick.`).then(s => s.delete({ timeout: 30 * 1000 }));
         if (!toKick.kickable) return message.reply(`\nThis user is not kickable.`).then(s => s.delete({ timeout: 30 * 1000 }));
+        if (toKick.roles.cache.has("KICK_MEMBERS")) return message.reply(`\nThis user cannot be kicked.`);
 
         //Init Embed
         const embed = new MessageEmbed()
