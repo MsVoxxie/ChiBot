@@ -37,6 +37,7 @@ bot.on('messageUpdate', async (oldMessage, newMessage) => {
     //Command loader
     let command = bot.commands.get(cmd);
     if (!command) command = bot.commands.get(bot.aliases.get(cmd));
+    if (!command) return;
     // if (!command) return message.delete({ timeout: 30 * 1000 });
 
     //Cooldown Manager
@@ -108,7 +109,9 @@ bot.on('messageUpdate', async (oldMessage, newMessage) => {
         if (command) {
             if (message) {
                 if (message.channel) {
-                    message.delete({ timeout: 60 * 1000 }).catch(err => console.error(err));
+                    if (message.channel.permissionsFor(message.guild.me).missing("MANAGE_MESSAGES")) {
+                        message.delete({ timeout: 60 * 1000 }).catch(err => console.error(err));
+                    }
                 }
             }
             if (bot.debug === true) {
@@ -116,7 +119,8 @@ bot.on('messageUpdate', async (oldMessage, newMessage) => {
             }
             command.execute(bot, message, args, settings);
         }
-    } catch (e) {
+    }
+    catch (e) {
         message.reply(`\nCommaned Execution Failed:\n${e}`);
     }
 });
