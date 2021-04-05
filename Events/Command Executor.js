@@ -2,7 +2,6 @@ const { bot } = require('../CleanChiBot');
 const { permissions } = require('../DataStore/Functions/util');
 const ms = require('ms');
 const { Collection } = require('discord.js');
-const { toLowerCase } = require('ffmpeg-static');
 
 bot.on('message', async message => {
 
@@ -16,7 +15,7 @@ bot.on('message', async message => {
 	}
 
 	const prefixMention = new RegExp(`^<@!?${bot.user.id}> `);
-	const prefixes = [message.content.match(prefixMention) ? message.content.match(prefixMention)[0] : settings.prefix, "chi,"];
+	const prefixes = [message.content.match(prefixMention) ? message.content.match(prefixMention)[0] : settings.prefix, 'chi,'];
 	// const prefix = message.content.match(prefixMention) ? message.content.match(prefixMention)[0] : settings.prefix;
 	const prefix = prefixes.find(p => message.content.startsWith(p.toLowerCase()));
 
@@ -85,10 +84,6 @@ bot.on('message', async message => {
 	if (command.userPerms) {
 		const usermissing = message.channel.permissionsFor(message.author).missing(command.userPerms);
 		if (usermissing.length > 0) {
-			message.delete({ timeout: 30 * 1000 });
-			if (usermissing.length === 1) {
-				return message.reply(`\nSorry, The command \`${command.name}\` requires the permission "\`${permissions[usermissing[0]]}\`".`).then(s => s.delete({ timeout: 30 * 1000 }));
-			}
 			return message.reply(`\nSorry, The command \`${command.name}\` requires the following permissions:\n\`${usermissing.map(perm => permissions[perm]).join(', ')}\``).then(s => s.delete({ timeout: 30 * 1000 }));
 		}
 	}
@@ -97,10 +92,6 @@ bot.on('message', async message => {
 	if (command.botPerms) {
 		const botmissing = message.channel.permissionsFor(message.guild.me).missing(command.botPerms);
 		if (botmissing.length > 0) {
-			message.delete({ timeout: 30 * 1000 });
-			if (botmissing.length === 1) {
-				return message.reply(`\nI cannot execute the command \`${command.name}\`, I'm missing the the permission: "\`${permissions[botmissing[0]]}\`".`).then(s => s.delete({ timeout: 30 * 1000 }));
-			}
 			return message.reply(`\nI cannot execute the command \`${command.name}\`, I'm missing the the following permissions:\n\`${botmissing.map(perm => permissions[perm]).join(', ')}\``).then(s => s.delete({ timeout: 30 * 1000 }));
 		}
 	}
@@ -115,7 +106,7 @@ bot.on('message', async message => {
 		if (command) {
 			if (message) {
 				if (message.channel) {
-					if (message.channel.permissionsFor(message.guild.me).missing("MANAGE_MESSAGES")) {
+					if (message.channel.permissionsFor(message.guild.me).missing('MANAGE_MESSAGES')) {
 						message.delete({ timeout: 60 * 1000 }).catch(err => console.error(err));
 					}
 				}
