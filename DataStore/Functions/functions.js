@@ -8,8 +8,19 @@ module.exports = bot => {
 	// User DB Functions
 	bot.getMember = async (member) => {
 		const data = await User.findOne({ guildID: member.guild.id, id: member.id });
-		if(data) return data;
-		else return 'No user was found!';
+		if(data) {return data;}
+		else {
+			const newMember = {
+				guildName: member.guild.name,
+				guildID: member.guild.id,
+				id: member.id,
+				tag: member.user.tag,
+				nickname: member.nickname ? member.nickname : 'none',
+				trust: '0',
+				roles: [],
+			};
+			return await bot.createMember(newMember);
+		}
 	};
 
 	bot.updateMember = async (member, settings) => {
@@ -25,7 +36,7 @@ module.exports = bot => {
 
 	bot.createMember = async (settings) => {
 		const newMember = await new User(settings);
-		return newMember.save().then(console.log(`New user Created: ${settings.tag}`));
+		return newMember.save().then(console.log(`New user Created: ${settings.tag} in Guild: ${settings.guildName}`));
 	};
 
 	// Database Functions

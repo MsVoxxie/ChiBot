@@ -5,6 +5,18 @@ bot.on('guildMemberAdd', async member => {
 	// Get Settings
 	const settings = await bot.getGuild(member.guild);
 
+	// Save new user to Database
+	const newMember = {
+		guildName: member.guild.name,
+		guildID: member.guild.id,
+		id: member.id,
+		tag: member.user.tag,
+		nickname: member.nickname ? member.nickname : 'none',
+		trust: '0',
+		roles: [],
+	};
+	await bot.createMember(newMember);
+
 	// Get welcome message
 	const msg = await settings.welcomeMessage;
 
