@@ -5,7 +5,7 @@ const fs = require('fs');
 
 module.exports = {
 	name: 'removerole',
-	aliases: ['rmrole', '-role'],
+	aliases: ['rmrole', 'rr'],
 	description: 'Allows users to unassign roles from themselves.',
 	category: 'Roles',
 	usage: '<role>',

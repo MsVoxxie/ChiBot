@@ -5,7 +5,7 @@ const fs = require('fs');
 
 module.exports = {
 	name: 'addrole',
-	aliases: ['role', '+role'],
+	aliases: ['role', 'ar'],
 	description: 'Allows users to assign roles to themselves.',
 	category: 'Roles',
 	usage: '<role>',

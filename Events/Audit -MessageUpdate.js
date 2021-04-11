@@ -15,12 +15,12 @@ bot.on('messageUpdate', async (oldMessage, newMessage) => {
 
 		// Set up Embed
 		const embed = new MessageEmbed()
-			.setAuthor(`${oldMessage.member.displayName}`, oldMessage.author.displayAvatarURL({ dynamic: true }))
+			.setAuthor(`${oldMessage.member.displayName} | ${oldMessage.member.user.tag}`, oldMessage.author.displayAvatarURL({ dynamic: true }))
 			.setColor(settings.color)
 			.setDescription(`**Message edited in›**\n<#${oldMessage.channel.id}> [Jump to Message](${oldMessage.url})`)
 			.addFields(
-				{ name: 'Before›', value: `${oldMessage.cleanContent}` },
-				{ name: 'After›', value: `${newMessage.cleanContent}` },
+				{ name: 'Before›', value: bot.trim(`${oldMessage.cleanContent}`, 900) },
+				{ name: 'After›', value: bot.trim(`${newMessage.cleanContent}`, 900) },
 				{ name: 'Additional Information›', value: `**Author-ID›** ${oldMessage.member.id}\n**Channel-ID›** ${oldMessage.channel.id}\n**Message-ID›** ${oldMessage.id}` },
 			)
 			.setFooter(bot.Timestamp(new Date()));

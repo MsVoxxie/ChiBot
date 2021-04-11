@@ -105,4 +105,6 @@ module.exports = bot => {
 		return `${hrs} ${mins}m ${secs}s`;
 	};
 
+	bot.trim = (str, max) => ((str.length > max) ? `${str.slice(0, max - 3)}...` : str);
+
 };
