@@ -14,10 +14,8 @@ module.exports = bot => {
 
 	bot.updateMember = async (member, settings) => {
 		let data = await bot.getMember(member);
-		console.log(`Data: ${data}`);
 		if (typeof data !== 'object') data = {};
 		for (const key in settings) {
-			console.log(`Key: ${key} Settings: ${settings}`);
 			if (data[key] !== settings[key]) data[key] = settings[key];
 			else return;
 		}
