@@ -73,7 +73,7 @@ const guildSchema = mongoose.Schema({
 		type: String,
 		default: defaults.pinboardChannel,
 	},
-	savedRoles: {
+	members: {
 		type: Array,
 		default: [],
 	},

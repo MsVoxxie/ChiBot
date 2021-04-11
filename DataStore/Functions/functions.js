@@ -1,39 +1,33 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
-const usersDB = require('../Database Models/Schematics/User.js');
-const { Guild } = require('../Database Models');
+// const usersDB = require('../Database Models/Schematics/User.js');
+const { Guild, User } = require('../Database Models');
 
 module.exports = bot => {
 
-	// SaveUserRoles
-	bot.SaveUserRoles = async function(user) {
-		let userDB = await usersDB.findOne({ id: user.id });
-
-		const userRoles = [];
-		user.roles.cache.forEach(r => {
-			if(r.id !== user.guild.id) {
-				userRoles.push(r);
-			}
-		});
-		userDB = new usersDB({
-			id: user.id,
-			name: user.user.username,
-			roles: userRoles,
-			saveDate: bot.Timestamp(Date.now()),
-		});
-		await userDB.save().catch(err => console.log(err));
-		return userDB;
+	// User DB Functions
+	bot.getMember = async (member) => {
+		const data = await User.findOne({ guildID: member.guild.id, id: member.id });
+		if(data) return data;
+		else return 'No user was found!';
 	};
 
-	// GetUserRoles
-	bot.GetUserRoles = async function(user) {
-		const userDB = await usersDB.findOne({ id: user.id });
-		if(userDB) {
-			return userDB;
+	bot.updateMember = async (member, settings) => {
+		let data = await bot.getMember(member);
+		console.log(`Data: ${data}`);
+		if (typeof data !== 'object') data = {};
+		for (const key in settings) {
+			console.log(`Key: ${key} Settings: ${settings}`);
+			if (data[key] !== settings[key]) data[key] = settings[key];
+			else return;
 		}
-		else{
-			return 'No User Found';
-		}
+		console.log(`Member ${data.tag} had their data updated: ${Object.keys(settings)}`);
+		return await data.updateOne(settings);
+	};
+
+	bot.createMember = async (settings) => {
+		const newMember = await new User(settings);
+		return newMember.save().then(console.log(`New user Created: ${settings.tag}`));
 	};
 
 	// Database Functions
@@ -82,8 +76,8 @@ module.exports = bot => {
 	};
 
 	bot.toThousands = x => {
-		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-	}
+		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+	};
 
 	bot.msToTime = s => {
 		let hrs = '';
