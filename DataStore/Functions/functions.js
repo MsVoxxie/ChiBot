@@ -10,6 +10,10 @@ module.exports = bot => {
 		const data = await User.findOne({ guildID: member.guild.id, id: member.id });
 		if(data) {return data;}
 		else {
+			const mRoles = member.roles.cache
+				.sort((a, b) => b.position - a.position)
+				.map(r => {if (!r.managed && r.id !== member.guild.id) {return r.name;}})
+				.filter(x => x !== undefined);
 			const newMember = {
 				guildName: member.guild.name,
 				guildID: member.guild.id,
@@ -17,7 +21,7 @@ module.exports = bot => {
 				tag: member.user.tag,
 				nickname: member.nickname ? member.nickname : 'none',
 				trust: '0',
-				roles: [],
+				roles: mRoles ? mRoles : [],
 			};
 			return await bot.createMember(newMember);
 		}

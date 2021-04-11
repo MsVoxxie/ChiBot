@@ -9,5 +9,6 @@ bot.on('message', async message => {
 	// Calculate score to add
 	const data = await bot.getMember(member);
 	const Score = data.trust + (0.01 * message.content.length / 10);
-	await bot.updateMember(member, { trust: Score });
+	const fixedScore = Score.toFixed(5);
+	await bot.updateMember(member, { trust: fixedScore });
 });

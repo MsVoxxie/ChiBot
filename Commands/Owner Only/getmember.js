@@ -24,8 +24,8 @@ module.exports = {
 			.addField('**ID›**', `**${data.id}**`, false)
 			.addField('**TAG›**', `${data.tag}`, false)
 			.addField('**NICKNAME›**', `${data.nickname}`, false)
-			.addField('**TRUST›**', `${data.trust}`, false)
-			.addField('**ROLES›**', `${data.roles.join(' | ')}`);
+			.addField('**TRUST›**', `${data.trust.toFixed(2)}`, false)
+			.addField('**ROLES›**', `${data.roles ? data.roles.join(' | ') : 'None Saved'}`);
 
 		// Send it
 		return message.channel.send({ embed: embed });
