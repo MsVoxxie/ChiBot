@@ -1,3 +1,5 @@
+const { MessageEmbed } = require('discord.js');
+
 module.exports = {
 	name: 'getMember',
 	aliases: ['gm'],
@@ -11,11 +13,22 @@ module.exports = {
 	botPerms: [''],
 	async execute(bot, message, args, settings) {
 
+		// Definitions
 		const member = message.mentions.members.first();
+		const data = await bot.getMember(member);
 
-		const fetched = await bot.getMember(member);
+		// Embed
+		const embed = new MessageEmbed()
+			.setAuthor(`${data.tag}'s Database Save`, member.user.displayAvatarURL({ dynamic: true }))
+			.setColor(settings.color)
+			.addField('**ID›**', `**${data.id}**`, false)
+			.addField('**TAG›**', `${data.tag}`, false)
+			.addField('**NICKNAME›**', `${data.nickname}`, false)
+			.addField('**TRUST›**', `${data.trust}`, false)
+			.addField('**ROLES›**', `${data.roles.join(' | ')}`);
 
-		console.log(fetched);
+		// Send it
+		return message.channel.send({ embed: embed });
 
 	},
 };
