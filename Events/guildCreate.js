@@ -23,7 +23,29 @@ bot.on('guildCreate', async guild => {
 			guildID: guild.id,
 			guildName: guild.name,
 		};
+
 		await bot.createGuild(newGuild);
+
+		guild.members.cache.map(async member => {
+
+			const mRoles = member.roles.cache
+				.sort((a, b) => b.position - a.position)
+				.map(r => { if (!r.managed && r.id !== member.guild.id) { return r.name; } })
+				.filter(x => x !== undefined);
+
+			const newMember = {
+				guildName: member.guild.name,
+				guildID: member.guild.id,
+				id: member.id,
+				tag: member.user.tag,
+				nickname: member.nickname ? member.nickname : 'none',
+				trust: '0',
+				roles: mRoles,
+			};
+
+			await bot.createMember(newMember);
+
+		});
 	}
 	catch (error) {
 		console.error(error);

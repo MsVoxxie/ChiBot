@@ -30,7 +30,8 @@ module.exports = {
 			return;
 		}
 		try {
-			let evaled = eval('(async () => {' + code + '})()');
+			// let evaled = eval('(async () => {' + code + '})()');
+			let evaled = eval(code);
 			if (typeof evaled !== 'string') {
 				evaled = require('util').inspect(evaled);
 			}
