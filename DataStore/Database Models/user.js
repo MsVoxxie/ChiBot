@@ -6,7 +6,10 @@ const userSchema = mongoose.Schema({
 	id: Number,
 	tag: String,
 	nickname: String,
-	trust: String,
+	trust: {
+		type: Number,
+		default: 0,
+	},
 	roles: {
 		type: Array,
 		default: [],
