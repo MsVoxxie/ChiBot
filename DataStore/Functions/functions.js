@@ -101,6 +101,4 @@ module.exports = bot => {
 		return `${hrs} ${mins}m ${secs}s`;
 	};
 
-	bot.scramble = v => [...v].sort(_ => Math.random() - 0.5).join('');
-
 };

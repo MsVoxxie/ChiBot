@@ -18,7 +18,7 @@ module.exports = {
 			tag: member.user.tag,
 			nickname: member.nickname ? member.nickname : 'none',
 			trust: '0',
-			roles: member.roles.cache.map(r => r.name),
+			roles: [],
 		};
 		await bot.createMember(newMember);
 	},
