@@ -27,7 +27,7 @@ bot.defaults = require('./DataStore/Database Models/databaseDefaults');
 require('./DataStore/Functions/functions')(bot);
 
 // Declare myself as Owner of bot.
-bot.Owners = ['101789503634554880', '101790332437405696'];
+bot.Owners = ['101789503634554880', '101790332437405696', '151636912602480640'];
 
 // Raffle Manager
 bot.Raffle = new GiveawaysManager(bot, {

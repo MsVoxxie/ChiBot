@@ -34,7 +34,7 @@ module.exports = bot => {
 			if (data[key] !== settings[key]) data[key] = settings[key];
 			else return;
 		}
-		console.log(`Member ${data.tag} had their data updated: ${Object.keys(settings)}`);
+		if(bot.debug) {console.log(`Member ${data.tag} had their data updated: ${Object.keys(settings)}`);}
 		return await data.updateOne(settings);
 	};
 
@@ -58,7 +58,7 @@ module.exports = bot => {
 			if (data[key] !== settings[key]) data[key] = settings[key];
 			else return;
 		}
-		console.log(`Guild "${data.guildName}" updated its settings: ${Object.keys(settings)}`);
+		if(bot.debug) {console.log(`Guild "${data.guildName}" updated its settings: ${Object.keys(settings)}`);}
 		return await data.updateOne(settings);
 	};
 

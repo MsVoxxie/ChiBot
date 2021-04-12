@@ -15,7 +15,7 @@ bot.on('guildMemberAdd', async member => {
 		trust: '0',
 		roles: [],
 	};
-	await bot.createMember(newMember);
+	// await bot.createMember(newMember);
 
 	// Get welcome message
 	const msg = await settings.welcomeMessage;

@@ -29,6 +29,6 @@ module.exports = {
 				message.member.roles.add(r);
 			}
 		});
-		await message.reply(`Reassigned a total of ${assignedCount} roles!`);
+		await message.reply(`Reassigned a total of ${assignedCount} roles!`).then(s => s.delete({ timeout: 60 * 1000 }));
 	},
 };
