@@ -18,7 +18,7 @@ const youtube = new YouTubeAPI(YOUTUBE_API_KEY);
 
 module.exports = {
 	name: 'play',
-	aliases: [],
+	aliases: ['p'],
 	description: 'Play a song from youtube.',
 	category: 'Music',
 	usage: '<url> or <search query>',
@@ -71,12 +71,13 @@ module.exports = {
 		if (urlValid) {
 			try {
 				songInfo = await ytdl.getInfo(url);
+
 				song = {
 					title: songInfo.videoDetails.title,
 					url: songInfo.videoDetails.video_url,
-					thumbnail: songInfo.thumbnail_url,
+					thumbnail: `https://img.youtube.com/vi/${songInfo.videoDetails.videoId}/maxresdefault.jpg`,
 					duration: songInfo.videoDetails.lengthSeconds,
-					requester: message.member,
+					requester: await message.member,
 				};
 			}
 			catch (error) {
@@ -91,6 +92,7 @@ module.exports = {
 					title: trackInfo.title,
 					url: trackInfo.permalink_url,
 					duration: Math.ceil(trackInfo.duration / 1000),
+					requester: await message.member,
 				};
 			}
 			catch (error) {
@@ -105,7 +107,9 @@ module.exports = {
 				song = {
 					title: songInfo.videoDetails.title,
 					url: songInfo.videoDetails.video_url,
+					thumbnail: `https://img.youtube.com/vi/${songInfo.videoDetails.videoId}/maxresdefault.jpg`,
 					duration: songInfo.videoDetails.lengthSeconds,
+					requester: await message.member,
 				};
 			}
 			catch (error) {
