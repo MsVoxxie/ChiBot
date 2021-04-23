@@ -23,7 +23,7 @@ module.exports = {
 		console.log(bar);
 
 		const nowPlaying = new MessageEmbed()
-			.setAuthor(`${song.requester.nickname ? song.requester.nickname : ` ${song.requester.nickname} | ${song.requester.user.tag}`}`, song.requester.user.displayAvatarURL({ dynamic: true }))
+			.setAuthor(`${song.requester.nickname ? `${song.requester.nickname} | ${song.requester.user.tag}` : `${song.requester.user.tag}`}`, song.requester.user.displayAvatarURL({ dynamic: true }))
 			.setTitle('Now playing')
 			.setThumbnail(song.thumbnail)
 			.setDescription(`[${song.title}](${song.url})`)
