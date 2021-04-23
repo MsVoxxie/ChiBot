@@ -18,9 +18,7 @@ module.exports = {
 		const current = time / (1000 * 60);
 		const percentage = Math.round((current / total) * 100);
 		console.log(percentage);
-		const bar = createBar(total, current, 20, '▬', `[${percentage}%]`);
-
-		console.log(bar);
+		const bar = createBar(total, current, 15, '▬', `[${percentage}%]`);
 
 		const nowPlaying = new MessageEmbed()
 			.setAuthor(`${song.requester.nickname ? `${song.requester.nickname} | ${song.requester.user.tag}` : `${song.requester.user.tag}`}`, song.requester.user.displayAvatarURL({ dynamic: true }))
