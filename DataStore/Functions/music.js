@@ -92,6 +92,7 @@ module.exports = {
 
 			const addedQueue = new MessageEmbed()
 				.setDescription(`Now Playing› [${song.title}](${song.url})\n[ <@${message.author.id}> ]`)
+				.setThumbnail(song.thumbnail)
 				.setFooter(`Song Duration› ${bot.msToTime(song.duration * 1000)}`)
 				.setColor(settings.color);
 
