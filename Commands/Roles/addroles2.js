@@ -58,65 +58,103 @@ module.exports = {
 		const member = message.member;
 		const PossibleRoles = validRoles;
 		const assignList = [];
+		const removeList = [];
 
 		// Embed Setup
 		const embed = new MessageEmbed()
 			.setAuthor(message.member.user.tag, message.author.displayAvatarURL({ dynamic: true }))
 			.setColor(settings.color)
-			.setDescription(`To add a role to your assignment list please type the name of each one message at a time below!\nOnce you're finished, Type finish!\n\n**Roles to Add:**\n${assignList.length > 0 ? assignList.map(r => r.name).join('\n') : ''}`);
+			.setDescription(`To Add a role please use \`a <rolename>\`\nTo Remove a role please use \`r <rolename>\nOnce you\'re finished type \`finish\`\n\nRoles to Add ${assignList.length > 0 ? assignList.map(r => r.name).join(', ') : 'None'}\n\nRoles to Remove ${removeList.length > 0 ? removeList.map(r => r.name).join(', ') : 'None'}`);
 
 		// Collector
 		const filter = m => m.author === message.author;
-		const collector = message.channel.createMessageCollector(filter, { time: 600 * 1000 });
+		const collector = await message.channel.createMessageCollector(filter, { time: 600 * 1000 });
 		const Confirm = await message.channel.send({ embed: embed });
 
 		collector.on('collect', async msg => {
 
-			// msg.delete({ timeout: 60 * 1000 });
+			const slice = msg.content.slice(1).trim().split(/ +/);
 
 			if(msg.content.toLowerCase() === 'finish') {
-				assignList.forEach(async r => {
-					member.roles.add(r.id);
-				});
-				embed.setDescription('***Roles Assigned!***');
+				if(assignList.length > 0) {
+					assignList.forEach(async r => {member.roles.add(r.id);});
+				}
+				if(removeList.length > 0) {
+					removeList.forEach(async r => {member.roles.remove(r.id);});
+				}
+				embed.setDescription('***Roles Assigned / Removed!***');
 				embed.setFooter('Deleting Message in 1m');
 				Confirm.edit({ embed: embed }).then(c => c.delete({ timeout: 60 * 1000 }));
 				collector.stop();
 				return;
 			}
 
-			// Make Arguments Uppercase
-			const Rolecase = msg.content;
-			const Words = Rolecase.split(' ');
-			const UpperWords = [];
+			// ADD
+			if(msg.content.toLowerCase().startsWith('a')) {
+				// Make Arguments Uppercase
+				const Rolecase = slice.join(' ');
+				const Words = Rolecase.split(' ');
+				const UpperWords = [];
 
-			// Make the first letter of each word uppercase
-			for (let x = 0; x < Words.length; x++) { UpperWords.push(Words[x].charAt(0).toUpperCase() + Words[x].slice(1)); }
-			const Role = UpperWords.join(' ');
+				// Make the first letter of each word uppercase
+				for (let x = 0; x < Words.length; x++) { UpperWords.push(Words[x].charAt(0).toUpperCase() + Words[x].slice(1)); }
+				const Role = UpperWords.join(' ');
 
-			// Check if Role matches a role in the Guild, if not. Find best match.
-			let gRole = await message.guild.roles.cache.find(r => r.name === Role.charAt(0).toUpperCase() + Role.slice(1));
+				// Check if Role matches a role in the Guild, if not. Find best match.
+				let gRole = await message.guild.roles.cache.find(r => r.name === Role.charAt(0).toUpperCase() + Role.slice(1));
 
-			if (!gRole) {
-				if (!PossibleRoles.length) return message.reply('\nNo role found. Check spelling or spacing.').then(s => s.delete({ timeout: 15 * 1000 }));
-				const Matches = Similar.findBestMatch(Role, PossibleRoles);
-				gRole = await message.guild.roles.cache.find(r => r.name === `${Matches.bestMatch.target}`);
-				if (badList.includes(gRole.id)) return message.reply('\nSorry, This role is blacklisted.').then(s => s.delete({ timeout: 15 * 1000 }));
+				if (!gRole) {
+					if (!PossibleRoles.length) return message.reply('\nNo role found. Check spelling or spacing.').then(s => s.delete({ timeout: 15 * 1000 }));
+					const Matches = Similar.findBestMatch(Role, PossibleRoles);
+					gRole = await message.guild.roles.cache.find(r => r.name === `${Matches.bestMatch.target}`);
+					if (badList.includes(gRole.id)) return message.reply('\nSorry, This role is blacklisted.').then(s => s.delete({ timeout: 15 * 1000 }));
+				}
+
+				// Nothing Found, Return.
+				if (!gRole) return message.reply('\nNo Roles found of similar spelling.').then(s => s.delete({ timeout: 15 * 1000 }));
+
+				// Return if the role has staff permissions
+				if (gRole.permissions.any(ignoredRoles)) return message.reply('\nYou cannot assign this role.').then(s => s.delete({ timeout: 15 * 1000 }));
+
+				// Check if user has the role already
+				if (member.roles.cache.has(gRole.id)) return message.reply(`\nYou already have the role \`${gRole.name}\`.`).then(s => s.delete({ timeout: 15 * 1000 }));
+
+				assignList.push(gRole);
+				embed.setDescription(`To Add a role please use \`a <rolename>\`\nTo Remove a role please use \`r <rolename>\nOnce you\'re finished type \`finish\`\n\nRoles to Add ${assignList.length > 0 ? assignList.map(r => r.name).join(', ') : 'None'}\n\nRoles to Remove ${removeList.length > 0 ? removeList.map(r => r.name).join(', ') : 'None'}`);
+				Confirm.edit({ embed: embed });
 			}
 
-			// Nothing Found, Return.
-			if (!gRole) return message.reply('\nNo Roles found of similar spelling.').then(s => s.delete({ timeout: 15 * 1000 }));
+			// Remove
+			if(msg.content.toLowerCase().startsWith('r')) {
+				// Make Arguments Uppercase
+				const Rolecase = slice.join(' ');
+				const Words = Rolecase.split(' ');
+				const UpperWords = [];
 
-			// Return if the role has staff permissions
-			if (gRole.permissions.any(ignoredRoles)) return message.reply('\nYou cannot assign this role.').then(s => s.delete({ timeout: 15 * 1000 }));
+				// Make the first letter of each word uppercase
+				for (let x = 0; x < Words.length; x++) { UpperWords.push(Words[x].charAt(0).toUpperCase() + Words[x].slice(1)); }
+				const Role = UpperWords.join(' ');
 
-			// Check if user has the role already
-			if (member.roles.cache.has(gRole.id)) return message.reply(`\nYou already have the role \`${gRole.name}\`.`).then(s => s.delete({ timeout: 15 * 1000 }));
+				// Check if Role matches a role in the Guild, if not. Find best match.
+				let gRole = await message.guild.roles.cache.find(r => r.name === Role.charAt(0).toUpperCase() + Role.slice(1));
 
-			assignList.push(gRole);
-			embed.setDescription(`To add a role to your assignment list please type the name of each one message at a time below!\nOnce you're finished, Type finish!\n\n**Roles to Add:**\n${assignList.length > 0 ? assignList.map(r => r.name).join('\n') : ''}`);
-			Confirm.edit({ embed: embed });
+				if (!gRole) {
+					if (!PossibleRoles.length) return message.reply('\nNo role found. Check spelling or spacing.').then(s => s.delete({ timeout: 30 * 1000 }));
+					const Matches = Similar.findBestMatch(Role, PossibleRoles);
+					gRole = await message.guild.roles.cache.find(r => r.name === Matches.bestMatch.target);
+					if (badList.includes(gRole.id)) return message.reply('\nSorry, This role is blacklisted.').then(s => s.delete({ timeout: 30 * 1000 }));
+				}
 
+				// Nothing Found, Return.
+				if (!gRole) return message.reply('\nNo Roles found of similar spelling.').then(s => s.delete({ timeout: 60 * 1000 }));
+
+				// Check if user has the role
+				if (!member.roles.cache.has(gRole.id)) return message.reply(`\nYou don't have the role \`${gRole.name}\`.`).then(s => s.delete({ timeout: 60 * 1000 }));
+
+				removeList.push(gRole);
+				embed.setDescription(`To Add a role please use \`a <rolename>\`\nTo Remove a role please use \`r <rolename>\nOnce you\'re finished type \`finish\`\n\nRoles to Add ${assignList.length > 0 ? assignList.map(r => r.name).join(', ') : 'None'}\n\nRoles to Remove ${removeList.length > 0 ? removeList.map(r => r.name).join(', ') : 'None'}`);
+				Confirm.edit({ embed: embed });
+			}
 		});
 	},
 };

@@ -76,12 +76,11 @@ module.exports = {
 		// Check if Role matches a role in the Guild, if not. Find best match.
 		let gRole = await message.guild.roles.cache.find(r => r.name === Role.charAt(0).toUpperCase() + Role.slice(1));
 
-		if (badList.includes(gRole.id)) return message.reply('\nSorry, This role is blacklisted.').then(s => s.delete({ timeout: 30 * 1000 }));
-
 		if (!gRole) {
 			if (!PossibleRoles.length) return message.reply('\nNo role found. Check spelling or spacing.').then(s => s.delete({ timeout: 30 * 1000 }));
 			const Matches = Similar.findBestMatch(Role, PossibleRoles);
 			gRole = await message.guild.roles.cache.find(r => r.name === Matches.bestMatch.target);
+			if (badList.includes(gRole.id)) return message.reply('\nSorry, This role is blacklisted.').then(s => s.delete({ timeout: 30 * 1000 }));
 			embed.addField(`Failed to find "${Role}".`, `unAssigning Best Match "\`${Matches.bestMatch.target}\`"`).then(s => s.delete({ timeout: 60 * 1000 }));
 			wasMatched = true;
 		}

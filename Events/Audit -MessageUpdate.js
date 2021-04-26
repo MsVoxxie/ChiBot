@@ -4,7 +4,7 @@ const { MessageEmbed } = require('discord.js');
 bot.on('messageUpdate', async (oldMessage, newMessage) => {
 
 	// Declarations
-	const settings = await bot.getGuild(oldMessage.member.guild);
+	const settings = await bot.getGuild(oldMessage.member.guild) || bot.getGuild(newMessage.member.guild);
 	const logChan = oldMessage.guild.channels.cache.get(settings.auditLogChannel);
 
 	// Checks
