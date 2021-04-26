@@ -1,4 +1,4 @@
-const Similar = require('string-similarity');
+// const Similar = require('string-similarity');
 const { MessageEmbed } = require('discord.js');
 const path = require('path');
 const fs = require('fs');
@@ -15,8 +15,8 @@ module.exports = {
 	botPerms: ['MANAGE_ROLES', 'MANAGE_MESSAGES'],
 	async execute(bot, message, args, settings) {
 		// Basic Checks
-		if (isNaN(settings.roleAssignChannel)) return message.reply('\nSorry, This command connot be used without a `roleAssignChannel` set up.');
-		if (message.channel.id != settings.roleAssignChannel) return message.reply(`\nPlease use this command in <#${settings.roleAssignChannel}>.`);
+		// if (isNaN(settings.roleAssignChannel)) return message.reply('\nSorry, This command connot be used without a `roleAssignChannel` set up.');
+		// if (message.channel.id != settings.roleAssignChannel) return message.reply(`\nPlease use this command in <#${settings.roleAssignChannel}>.`);
 
 		// Get blacklist
 		const badList = [];
@@ -102,12 +102,12 @@ module.exports = {
 				const Role = UpperWords.join(' ');
 
 				// Check if Role matches a role in the Guild, if not. Find best match.
-				let gRole = await message.guild.roles.cache.find(r => r.name === Role.charAt(0).toUpperCase() + Role.slice(1));
+				const gRole = await message.guild.roles.cache.find(r => r.name === Role.charAt(0).toUpperCase() + Role.slice(1));
 
 				if (!gRole) {
 					if (!PossibleRoles.length) return message.reply('\nNo role found. Check spelling or spacing.').then(s => s.delete({ timeout: 15 * 1000 }));
-					const Matches = Similar.findBestMatch(Role, PossibleRoles);
-					gRole = await message.guild.roles.cache.find(r => r.name === `${Matches.bestMatch.target}`);
+					// const Matches = Similar.findBestMatch(Role, PossibleRoles);
+					// gRole = await message.guild.roles.cache.find(r => r.name === `${Matches.bestMatch.target}`);
 					if (badList.includes(gRole.id)) return message.reply('\nSorry, This role is blacklisted.').then(s => s.delete({ timeout: 15 * 1000 }));
 				}
 
@@ -137,12 +137,12 @@ module.exports = {
 				const Role = UpperWords.join(' ');
 
 				// Check if Role matches a role in the Guild, if not. Find best match.
-				let gRole = await message.guild.roles.cache.find(r => r.name === Role.charAt(0).toUpperCase() + Role.slice(1));
+				const gRole = await message.guild.roles.cache.find(r => r.name === Role.charAt(0).toUpperCase() + Role.slice(1));
 
 				if (!gRole) {
 					if (!PossibleRoles.length) return message.reply('\nNo role found. Check spelling or spacing.').then(s => s.delete({ timeout: 30 * 1000 }));
-					const Matches = Similar.findBestMatch(Role, PossibleRoles);
-					gRole = await message.guild.roles.cache.find(r => r.name === Matches.bestMatch.target);
+					// const Matches = Similar.findBestMatch(Role, PossibleRoles);
+					// gRole = await message.guild.roles.cache.find(r => r.name === Matches.bestMatch.target);
 					if (badList.includes(gRole.id)) return message.reply('\nSorry, This role is blacklisted.').then(s => s.delete({ timeout: 30 * 1000 }));
 				}
 
