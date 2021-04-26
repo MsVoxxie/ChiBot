@@ -77,15 +77,16 @@ module.exports = {
 
 			if(msg.content.toLowerCase() === 'finish') {
 				if(assignList.length > 0) {
-					assignList.forEach(async r => {member.roles.add(r.id);});
+					assignList.forEach(async r => {await member.roles.add(r.id);});
 				}
 				if(removeList.length > 0) {
-					removeList.forEach(async r => {member.roles.remove(r.id);});
+					removeList.forEach(async r => {await member.roles.remove(r.id);});
 				}
+
 				embed.setDescription('***Roles Assigned / Removed!***');
 				embed.setFooter('Deleting Message in 1m');
-				Confirm.edit({ embed: embed }).then(c => c.delete({ timeout: 60 * 1000 }));
-				collector.stop();
+				await Confirm.edit({ embed: embed }).then(c => c.delete({ timeout: 60 * 1000 }));
+				await collector.stop();
 				return;
 			}
 
