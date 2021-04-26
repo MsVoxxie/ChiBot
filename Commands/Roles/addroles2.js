@@ -15,8 +15,8 @@ module.exports = {
 	botPerms: ['MANAGE_ROLES', 'MANAGE_MESSAGES'],
 	async execute(bot, message, args, settings) {
 		// Basic Checks
-		// if (isNaN(settings.roleAssignChannel)) return message.reply('\nSorry, This command connot be used without a `roleAssignChannel` set up.');
-		// if (message.channel.id != settings.roleAssignChannel) return message.reply(`\nPlease use this command in <#${settings.roleAssignChannel}>.`);
+		if (isNaN(settings.roleAssignChannel)) return message.reply('\nSorry, This command connot be used without a `roleAssignChannel` set up.');
+		if (message.channel.id != settings.roleAssignChannel) return message.reply(`\nPlease use this command in <#${settings.roleAssignChannel}>.`);
 
 		// Get blacklist
 		const badList = [];
