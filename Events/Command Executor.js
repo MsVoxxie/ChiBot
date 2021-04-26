@@ -24,8 +24,8 @@ bot.on('message', async message => {
 		if (message.channel.id === settings.roleAssignChannel) {
 			if (message.author.id != bot.user.id) {
 				if (!message.content.startsWith(prefix)) {
-					message.reply('\nPlease do not talk in this channel, It is only for role assignment.').then(s => s.delete({ timeout: 30 * 1000 }));
-					message.delete({ timeout: 5 * 1000 });
+					// message.reply('\nPlease do not talk in this channel, It is only for role assignment.').then(s => s.delete({ timeout: 30 * 1000 }));
+					message.delete({ timeout: 15 * 1000 });
 					return;
 				}
 			}
