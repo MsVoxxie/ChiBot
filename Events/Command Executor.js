@@ -34,7 +34,6 @@ bot.on('message', async message => {
 
 	// Set up settings
 	if (!message.content.startsWith(prefix)) return;
-	console.log(message.content);
 	const args = message.content.slice(prefix.length).trim().split(/ +/);
 	const cmd = args.shift().toLowerCase();
 	if (cmd.length === 0) return;
