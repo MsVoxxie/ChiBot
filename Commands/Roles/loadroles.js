@@ -22,13 +22,15 @@ module.exports = {
 			roles.push(found.id);
 		});
 
-		await roles.forEach(r => {
+		roles.forEach(async r => {
 			if(!message.member.roles.cache.has(r)) {
 				console.log(`Assigning ${r} to ${message.member.user.tag}`);
 				assignedCount++;
-				message.member.roles.add(r);
+				await message.member.roles.add(r);
 			}
 		});
-		await message.reply(`Reassigned a total of ${assignedCount} roles!`).then(s => s.delete({ timeout: 60 * 1000 }));
+		if(message.channel) {
+			await message.reply(`Reassigned a total of ${assignedCount} roles!`).then(s => s.delete({ timeout: 60 * 1000 }));
+		}
 	},
 };
