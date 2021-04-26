@@ -23,10 +23,8 @@ module.exports = {
 			.setAuthor(`${song.requester.nickname ? `${song.requester.nickname} | ${song.requester.user.tag}` : `${song.requester.user.tag}`}`, song.requester.user.displayAvatarURL({ dynamic: true }))
 			.setTitle('Now playing')
 			.setThumbnail(song.thumbnail)
-			.setDescription(`[${song.title}](${song.url})`)
+			.setDescription(`[${song.title}](${song.url})${song.duration > 0 ? `\n**‹${bar[0]}›**` : ''}`)
 			.setColor(settings.color);
-
-		if (song.duration > 0) nowPlaying.setFooter(`**[${bar[0]}]**`);
 
 		return message.channel.send(nowPlaying).then(s => s.delete({ timeout: 60 * 60000 }));
 	},
