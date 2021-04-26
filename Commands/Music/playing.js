@@ -17,7 +17,6 @@ module.exports = {
 		const total = song.duration / 60;
 		const current = time / (1000 * 60);
 		const percentage = Math.round((current / total) * 100);
-		console.log(percentage);
 		const bar = createBar(total, current, 15, '▬', `[${percentage}%]`);
 
 		const nowPlaying = new MessageEmbed()
@@ -27,7 +26,7 @@ module.exports = {
 			.setDescription(`[${song.title}](${song.url})`)
 			.setColor(settings.color);
 
-		if (song.duration > 0) nowPlaying.setFooter(`${bar[0]}`);
+		if (song.duration > 0) nowPlaying.setFooter(`**[${bar[0]}]**`);
 
 		return message.channel.send(nowPlaying).then(s => s.delete({ timeout: 60 * 60000 }));
 	},
