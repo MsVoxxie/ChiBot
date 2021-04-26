@@ -104,15 +104,17 @@ module.exports = {
 				// Check if Role matches a role in the Guild, if not. Find best match.
 				const gRole = await message.guild.roles.cache.find(r => r.name === Role.charAt(0).toUpperCase() + Role.slice(1));
 
-				if (!gRole) {
-					if (!PossibleRoles.length) return message.reply('\nNo role found. Check spelling or spacing.').then(s => s.delete({ timeout: 15 * 1000 }));
-					// const Matches = Similar.findBestMatch(Role, PossibleRoles);
-					// gRole = await message.guild.roles.cache.find(r => r.name === `${Matches.bestMatch.target}`);
-					if (badList.includes(gRole.id)) return message.reply('\nSorry, This role is blacklisted.').then(s => s.delete({ timeout: 15 * 1000 }));
-				}
+				// if (!gRole) {
+				// 	// if (!PossibleRoles.length) return message.reply('\nNo role found. Check spelling or spacing.').then(s => s.delete({ timeout: 15 * 1000 }));
+				// 	// const Matches = Similar.findBestMatch(Role, PossibleRoles);
+				// 	// gRole = await message.guild.roles.cache.find(r => r.name === `${Matches.bestMatch.target}`);
+				// 	// if (badList.includes(gRole.id)) return message.reply('\nSorry, This role is blacklisted.').then(s => s.delete({ timeout: 15 * 1000 }));
+				// }
 
 				// Nothing Found, Return.
 				if (!gRole) return message.reply('\nNo Roles found of similar spelling.').then(s => s.delete({ timeout: 15 * 1000 }));
+				if (badList.includes(gRole.id)) return message.reply('\nSorry, This role is blacklisted.').then(s => s.delete({ timeout: 15 * 1000 }));
+				if (!PossibleRoles.length) return message.reply('\nNo role found. Check spelling or spacing.').then(s => s.delete({ timeout: 15 * 1000 }));
 
 				// Return if the role has staff permissions
 				if (gRole.permissions.any(ignoredRoles)) return message.reply('\nYou cannot assign this role.').then(s => s.delete({ timeout: 15 * 1000 }));
@@ -139,18 +141,20 @@ module.exports = {
 				// Check if Role matches a role in the Guild, if not. Find best match.
 				const gRole = await message.guild.roles.cache.find(r => r.name === Role.charAt(0).toUpperCase() + Role.slice(1));
 
-				if (!gRole) {
-					if (!PossibleRoles.length) return message.reply('\nNo role found. Check spelling or spacing.').then(s => s.delete({ timeout: 30 * 1000 }));
-					// const Matches = Similar.findBestMatch(Role, PossibleRoles);
-					// gRole = await message.guild.roles.cache.find(r => r.name === Matches.bestMatch.target);
-					if (badList.includes(gRole.id)) return message.reply('\nSorry, This role is blacklisted.').then(s => s.delete({ timeout: 30 * 1000 }));
-				}
+				// if (!gRole) {
+				// 	// if (!PossibleRoles.length) return message.reply('\nNo role found. Check spelling or spacing.').then(s => s.delete({ timeout: 15 * 1000 }));
+				// 	// const Matches = Similar.findBestMatch(Role, PossibleRoles);
+				// 	// gRole = await message.guild.roles.cache.find(r => r.name === Matches.bestMatch.target);
+				// 	// if (badList.includes(gRole.id)) return message.reply('\nSorry, This role is blacklisted.').then(s => s.delete({ timeout: 15 * 1000 }));
+				// }
 
 				// Nothing Found, Return.
-				if (!gRole) return message.reply('\nNo Roles found of similar spelling.').then(s => s.delete({ timeout: 60 * 1000 }));
+				if (!gRole) return message.reply('\nNo Roles found of similar spelling.').then(s => s.delete({ timeout: 15 * 1000 }));
+				if (badList.includes(gRole.id)) return message.reply('\nSorry, This role is blacklisted.').then(s => s.delete({ timeout: 15 * 1000 }));
+				if (!PossibleRoles.length) return message.reply('\nNo role found. Check spelling or spacing.').then(s => s.delete({ timeout: 15 * 1000 }));
 
 				// Check if user has the role
-				if (!member.roles.cache.has(gRole.id)) return message.reply(`\nYou don't have the role \`${gRole.name}\`.`).then(s => s.delete({ timeout: 60 * 1000 }));
+				if (!member.roles.cache.has(gRole.id)) return message.reply(`\nYou don't have the role \`${gRole.name}\`.`).then(s => s.delete({ timeout: 15 * 1000 }));
 
 				if(!removeList.includes(gRole)) { removeList.push(gRole); }
 				embed.setDescription(`To Add a role please use \`a <rolename>\`\nTo Remove a role please use \`r <rolename>\nOnce you're finished type \`finish\`\n\nRoles to Add› ${assignList.length > 0 ? assignList.map(r => r.name).join(', ') : 'None'}\n\nRoles to Remove› ${removeList.length > 0 ? removeList.map(r => r.name).join(', ') : 'None'}`);
