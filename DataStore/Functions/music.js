@@ -1,5 +1,5 @@
 const { bot } = require('../../CleanChiBot');
-const ytdlDiscord = require('ytdl-core');
+const ytdl = require('ytdl-core');
 const scdl = require('soundcloud-downloader');
 const { canModifyQueue } = require('../Functions/util');
 const { MessageEmbed } = require('discord.js');
@@ -34,7 +34,7 @@ module.exports = {
 
 		try {
 			if (song.url.includes('youtube.com')) {
-				stream = await ytdlDiscord(song.url, { opusEncoded: true, highWaterMark: 1 << 25 });
+				stream = await ytdl(song.url, { opusEncoded: true, highWaterMark: 1 << 25 });
 			}
 			else if (song.url.includes('soundcloud.com')) {
 				try {
@@ -110,7 +110,7 @@ module.exports = {
 		}
 
 		const filter = (reaction, user) => user.id !== message.client.user.id;
-		var collector = playingMessage.createReactionCollector(filter, {
+		const collector = playingMessage.createReactionCollector(filter, {
 			time: song.duration > 0 ? song.duration * 1000 : 600000,
 		});
 

@@ -1,6 +1,5 @@
 const Discord = require('discord.js');
 const { Guild, User } = require('../../DataStore/Database Models/');
-const { createBar } = require('../../DataStore/Functions/util');
 
 module.exports = {
 	name: 'eval',
