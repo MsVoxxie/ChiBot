@@ -19,9 +19,9 @@ module.exports = {
 
 
 		// Checks
-		if (!Time) return message.reply('\nPlease provide a duration for the raffle.').then(s => s.delete({ timeout: 30 * 1000 }));
-		if (!WinnerCount || isNaN(WinnerCount)) return message.reply('\nPlease provide the number of winners for this raffle.').then(s => s.delete({ timeout: 30 * 1000 }));
-		if (!Prize) return message.reply('\nPlease provide a prize for the raffle.').then(s => s.delete({ timeout: 30 * 1000 }));
+		if (!Time) return message.lineReply('\nPlease provide a duration for the raffle.').then(s => s.delete({ timeout: 30 * 1000 }));
+		if (!WinnerCount || isNaN(WinnerCount)) return message.lineReply('\nPlease provide the number of winners for this raffle.').then(s => s.delete({ timeout: 30 * 1000 }));
+		if (!Prize) return message.lineReply('\nPlease provide a prize for the raffle.').then(s => s.delete({ timeout: 30 * 1000 }));
 
 		// Do the raffle
 		bot.Raffle.start(message.channel, {

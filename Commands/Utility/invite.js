@@ -10,7 +10,7 @@ module.exports = {
 	async execute(bot, message, args, settings) {
 
 		// Check if users are allowed to create invites.
-		if (!settings.allowUserInvites) return message.reply('\nThis server has disabled user created invitations.').then(s => s.delete({ timeout: 30 * 1000 }));
+		if (!settings.allowUserInvites) return message.lineReply('\nThis server has disabled user created invitations.').then(s => s.delete({ timeout: 30 * 1000 }));
 
 		// Check if more than one use should be set.
 		let uses;
@@ -23,7 +23,7 @@ module.exports = {
 		}
 
 		if (uses > 100) {
-			return message.reply('Maximum of 10 allowed, please try again.');
+			return message.lineReply('Maximum of 10 allowed, please try again.');
 		}
 
 		// Declarations
@@ -37,6 +37,6 @@ module.exports = {
 			maxUses: uses,
 			unique: true,
 			reason: `${message.member.user.tag} used the Invite command.`,
-		}).then(invite => message.reply(`\nHere you go!\nThis invite will expire after ${invite.maxUses} use(s) or ${ms(ms(`${invite.maxAge}s`))}.\nhttps://discord.gg/${invite.code}`).then(sent => sent.delete({ timeout: invite.maxAge * 1000 })));
+		}).then(invite => message.lineReply(`\nHere you go!\nThis invite will expire after ${invite.maxUses} use(s) or ${ms(ms(`${invite.maxAge}s`))}.\nhttps://discord.gg/${invite.code}`).then(sent => sent.delete({ timeout: invite.maxAge * 1000 })));
 	},
 };

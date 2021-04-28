@@ -30,7 +30,7 @@ module.exports = {
 			}
 		});
 		if(message.channel) {
-			await message.reply(`Reassigned a total of ${assignedCount} roles!`).then(s => s.delete({ timeout: 60 * 1000 }));
+			await message.lineReply(`Reassigned a total of ${assignedCount} roles!`).then(s => s.delete({ timeout: 60 * 1000 }));
 		}
 	},
 };

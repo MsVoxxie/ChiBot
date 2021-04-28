@@ -7,7 +7,7 @@ module.exports = {
 	botPerms: ['CONNECT', 'SPEAK', 'MANAGE_MESSAGES'],
 	async execute(bot, message, args, settings) {
 		const permissions = message.channel.permissionsFor(message.client.user);
-		if (!permissions.has(['MANAGE_MESSAGES', 'ADD_REACTIONS'])) {return message.reply('Missing permission to manage messages or add reactions').then(s => s.delete({ timeout: 30 * 1000 }));}
+		if (!permissions.has(['MANAGE_MESSAGES', 'ADD_REACTIONS'])) {return message.lineReply('Missing permission to manage messages or add reactions').then(s => s.delete({ timeout: 30 * 1000 }));}
 
 		const queue = message.client.queue.get(message.guild.id);
 		if (!queue) return message.channel.send('❌ **Nothing playing in this server**').then(s => s.delete({ timeout: 30 * 1000 }));

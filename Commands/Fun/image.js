@@ -27,7 +27,7 @@ module.exports = {
 		});
 
 		if (!Images[0]) {
-			return message.reply(`Request timed out or no results found for \`${query}\`.`).then(s => {
+			return message.lineReply(`Request timed out or no results found for \`${query}\`.`).then(s => {
 				s.delete({ timeout: 30 * 1000 });
 			});
 		}

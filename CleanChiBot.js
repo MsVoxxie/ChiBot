@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+require('discord-reply');
 const { Token } = require('./DataStore/Config/Config.json');
 const { GiveawaysManager } = require('discord-giveaways');
 const ascii = require('ascii-table');

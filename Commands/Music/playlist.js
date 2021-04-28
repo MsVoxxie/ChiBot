@@ -33,16 +33,16 @@ module.exports = {
 
 		if (!args.length) {
 			return message
-				.reply(`Usage: ${settings.prefix}playlist <YouTube Playlist URL | Playlist Name>`)
+				.lineReply(`Usage: ${settings.prefix}playlist <YouTube Playlist URL | Playlist Name>`)
 				.catch(console.error);
 		}
-		if (!channel) return message.reply('You need to join a voice channel first!').catch(console.error);
+		if (!channel) return message.lineReply('You need to join a voice channel first!').catch(console.error);
 
 		const permissions = channel.permissionsFor(message.client.user);
-		if (!permissions.has('CONNECT')) {return message.reply('Cannot connect to voice channel, missing permissions');}
-		if (!permissions.has('SPEAK')) {return message.reply('I cannot speak in this voice channel, make sure I have the proper permissions!');}
+		if (!permissions.has('CONNECT')) {return message.lineReply('Cannot connect to voice channel, missing permissions');}
+		if (!permissions.has('SPEAK')) {return message.lineReply('I cannot speak in this voice channel, make sure I have the proper permissions!');}
 
-		if (serverQueue && channel !== message.guild.me.voice.channel) {return message.reply(`You must be in the same channel as ${message.client.user}`).catch(console.error);}
+		if (serverQueue && channel !== message.guild.me.voice.channel) {return message.lineReply(`You must be in the same channel as ${message.client.user}`).catch(console.error);}
 
 		const search = args.join(' ');
 		const pattern = /^.*(youtu.be\/|list=)([^#\&\?]*).*/gi;
@@ -70,7 +70,7 @@ module.exports = {
 			}
 			catch (error) {
 				console.error(error);
-				return message.reply('Playlist not found :(').catch(console.error);
+				return message.lineReply('Playlist not found :(').catch(console.error);
 			}
 			// } else if (scdl.isValidUrl(args[0])) {
 			//     if (args[0].includes("/sets/")) {
@@ -91,7 +91,7 @@ module.exports = {
 			}
 			catch (error) {
 				console.error(error);
-				return message.reply(error.message).catch(console.error);
+				return message.lineReply(error.message).catch(console.error);
 			}
 		}
 

@@ -28,18 +28,18 @@ module.exports = {
 		const { channel } = message.member.voice;
 
 		const serverQueue = message.client.queue.get(message.guild.id);
-		if (!channel) return message.reply('You need to join a voice channel first!').then(s => s.delete({ timeout: 30 * 1000 }));
-		if (serverQueue && channel !== message.guild.me.voice.channel) {return message.reply(`You must be in the same channel as ${message.client.user}`).then(s => s.delete({ timeout: 30 * 1000 }));}
+		if (!channel) return message.lineReply('You need to join a voice channel first!').then(s => s.delete({ timeout: 30 * 1000 }));
+		if (serverQueue && channel !== message.guild.me.voice.channel) {return message.lineReply(`You must be in the same channel as ${message.client.user}`).then(s => s.delete({ timeout: 30 * 1000 }));}
 
 		if (!args.length) {
 			return message
-				.reply(`Usage: ${settings.prefix}play <YouTube URL | Video Name | Soundcloud URL>`)
+				.lineReply(`Usage: ${settings.prefix}play <YouTube URL | Video Name | Soundcloud URL>`)
 				.then(s => s.delete({ timeout: 30 * 1000 }));
 		}
 
 		const permissions = channel.permissionsFor(message.client.user);
-		if (!permissions.has('CONNECT')) {return message.reply('Cannot connect to voice channel, missing permissions').then(s => s.delete({ timeout: 30 * 1000 }));}
-		if (!permissions.has('SPEAK')) {return message.reply('I cannot speak in this voice channel, make sure I have the proper permissions!').then(s => s.delete({ timeout: 30 * 1000 }));}
+		if (!permissions.has('CONNECT')) {return message.lineReply('Cannot connect to voice channel, missing permissions').then(s => s.delete({ timeout: 30 * 1000 }));}
+		if (!permissions.has('SPEAK')) {return message.lineReply('I cannot speak in this voice channel, make sure I have the proper permissions!').then(s => s.delete({ timeout: 30 * 1000 }));}
 
 		const search = args.join(' ');
 		const videoPattern = /^(https?:\/\/)?(www\.)?(m\.)?(youtube\.com|youtu\.?be)\/.+$/gi;
@@ -50,9 +50,9 @@ module.exports = {
 
 		// Start the playlist if playlist url was provided
 		if (!videoPattern.test(args[0]) && playlistPattern.test(args[0])) {
-			return message.reply('\nThis appears to be a playlist. Please use the `playlist` command!').then(s => s.delete({ timeout: 30 * 1000 }));
+			return message.lineReply('\nThis appears to be a playlist. Please use the `playlist` command!').then(s => s.delete({ timeout: 30 * 1000 }));
 			// } else if (scdl.isValidUrl(url) && url.includes("/sets/")) {
-			//     return message.reply(`\nThis appears to be a playlist. Please use the \`playlist\` command!`).then(s => s.delete({ timeout: 30 * 1000 }));
+			//     return message.lineReply(`\nThis appears to be a playlist. Please use the \`playlist\` command!`).then(s => s.delete({ timeout: 30 * 1000 }));
 		}
 
 		const queueConstruct = {
@@ -82,7 +82,7 @@ module.exports = {
 			}
 			catch (error) {
 				console.error(error);
-				return message.reply(error.message).then(s => s.delete({ timeout: 30 * 1000 }));
+				return message.lineReply(error.message).then(s => s.delete({ timeout: 30 * 1000 }));
 			}
 		}
 		else if (scRegex.test(url)) {
@@ -97,7 +97,7 @@ module.exports = {
 			}
 			catch (error) {
 				console.error(error);
-				return message.reply(error.message).then(s => s.delete({ timeout: 30 * 1000 }));
+				return message.lineReply(error.message).then(s => s.delete({ timeout: 30 * 1000 }));
 			}
 		}
 		else {
@@ -114,7 +114,7 @@ module.exports = {
 			}
 			catch (error) {
 				console.error(error);
-				return message.reply(error.message)
+				return message.lineReply(error.message)
 					.then(s => s.delete({ timeout: 30 * 1000 }));
 			}
 		}

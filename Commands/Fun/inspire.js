@@ -47,7 +47,7 @@ module.exports = {
 
 		// Sanity Check
 		if (num > 5) {
-			return message.reply('Maximum of 5 please!');
+			return message.lineReply('Maximum of 5 please!');
 		}
 
 		for (let step = 0; step < num; step++) {

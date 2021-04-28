@@ -15,7 +15,7 @@ module.exports = {
 		const warns = await JSON.parse(fs.readFileSync(path.join(__dirname, '../../DataStore/Warnings/', './Warnings.json'), 'utf8'));
 		const getwarns = warns[member.guild.id];
 
-		if (!getwarns) return message.reply('\nThere are no warned users in this guild.').then(s => s.delete({ timeout: 30 * 1000 }));
+		if (!getwarns) return message.lineReply('\nThere are no warned users in this guild.').then(s => s.delete({ timeout: 30 * 1000 }));
 
 		const warnlist = new Discord.MessageEmbed()
 			.setColor(settings.color)

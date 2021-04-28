@@ -12,6 +12,7 @@
     "canvas": "^2.6.1",
     "discord-backup": "^2.4.1",
     "discord-giveaways": "^4.2.1",
+    "discord-lineReplyNoMention": "^0.1.2",
     "discord-tts": "^1.0.3",
     "discord.js": "^12.5.1",
     "ffmpeg": "0.0.4",

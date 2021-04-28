@@ -24,7 +24,7 @@ bot.on('message', async message => {
 		if (message.channel.id === settings.roleAssignChannel) {
 			if (message.author.id != bot.user.id) {
 				if (!message.content.startsWith(prefix)) {
-					// message.reply('\nPlease do not talk in this channel, It is only for role assignment.').then(s => s.delete({ timeout: 30 * 1000 }));
+					// message.lineReply('\nPlease do not talk in this channel, It is only for role assignment.').then(s => s.delete({ timeout: 30 * 1000 }));
 					if(bot.HasChannelPermission(message, 'MANAGE_MESSAGES')) {
 						message.delete({ timeout: 15 * 1000 });
 					}
@@ -57,7 +57,7 @@ bot.on('message', async message => {
 		const expireationTime = timestamps.get(message.author.id) + cooldownAmount;
 		if (now < expireationTime) {
 			const timeLeft = (expireationTime - now);
-			return message.reply(`Please wait ${ms(timeLeft)} before using \`${command.name}\``).then(s => s.delete({ timeout: 30 * 1000 }));
+			return message.lineReply(`Please wait ${ms(timeLeft)} before using \`${command.name}\``).then(s => s.delete({ timeout: 30 * 1000 }));
 		}
 	}
 
@@ -68,12 +68,12 @@ bot.on('message', async message => {
 
 	// Check if command is Owner Only
 	if (command.ownerOnly && !bot.Owners.includes(message.member.id)) {
-		return message.reply('\nSorry, This command is locked.');
+		return message.lineReply('\nSorry, This command is locked.');
 	}
 
 	// Check if command is Disabled
 	if (command.disabled && command.disabled === true) {
-		return message.reply(`\nSorry, The command \`${command.name}\` is disabled.`).then(s => {
+		return message.lineReply(`\nSorry, The command \`${command.name}\` is disabled.`).then(s => {
 			if(bot.HasChannelPermission(s, 'MANAGE_MESSAGES')) {
 				s.delete({ timeout: 30 * 1000 });
 			}
@@ -82,14 +82,14 @@ bot.on('message', async message => {
 
 	// Check if args are required
 	if (command.args && !args.length) {
-		return message.reply(`\nThe command \`${command.name}\` requires arguments to function.\n**For example›** ${command.example ? `\`${settings.prefix}${command.name} ${command.example}\`` : `\`${settings.prefix}${command.name} ${command.usage}\``}`);
+		return message.lineReply(`\nThe command \`${command.name}\` requires arguments to function.\n**For example›** ${command.example ? `\`${settings.prefix}${command.name} ${command.example}\`` : `\`${settings.prefix}${command.name} ${command.usage}\``}`);
 	}
 
 	// Check for permissions of user
 	if (command.userPerms) {
 		const usermissing = message.channel.permissionsFor(message.author).missing(command.userPerms);
 		if (usermissing.length > 0) {
-			return message.reply(`\nSorry, The command \`${command.name}\` requires the following permissions:\n\`${usermissing.map(perm => permissions[perm]).join(', ')}\``).then(s => {
+			return message.lineReply(`\nSorry, The command \`${command.name}\` requires the following permissions:\n\`${usermissing.map(perm => permissions[perm]).join(', ')}\``).then(s => {
 				if(bot.HasChannelPermission(s, 'MANAGE_MESSAGES')) {
 					s.delete({ timeout: 30 * 1000 });
 				}
@@ -101,7 +101,7 @@ bot.on('message', async message => {
 	if (command.botPerms) {
 		const botmissing = message.channel.permissionsFor(message.guild.me).missing(command.botPerms);
 		if (botmissing.length > 0) {
-			return message.reply(`\nI cannot execute the command \`${command.name}\`, I'm missing the the following permissions:\n\`${botmissing.map(perm => permissions[perm]).join(', ')}\``).then(s => {
+			return message.lineReply(`\nI cannot execute the command \`${command.name}\`, I'm missing the the following permissions:\n\`${botmissing.map(perm => permissions[perm]).join(', ')}\``).then(s => {
 				if(bot.HasChannelPermission(s, 'MANAGE_MESSAGES')) {
 					s.delete({ timeout: 30 * 1000 });
 				}
@@ -111,7 +111,7 @@ bot.on('message', async message => {
 
 	// Check if channel is nsfw
 	if (!message.channel.nsfw && command.nsfw) {
-		return message.reply('\nSorry this command may only be used in channels marked as `NSFW`.');
+		return message.lineReply('\nSorry this command may only be used in channels marked as `NSFW`.');
 	}
 
 	// Run Command
@@ -131,6 +131,6 @@ bot.on('message', async message => {
 		}
 	}
 	catch (e) {
-		message.reply(`\nCommaned Execution Failed:\n${e}`);
+		message.lineReply(`\nCommaned Execution Failed:\n${e}`);
 	}
 });

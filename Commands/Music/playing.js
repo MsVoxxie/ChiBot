@@ -10,7 +10,7 @@ module.exports = {
 	async execute(bot, message, args, settings) {
 
 		const queue = bot.queue.get(message.guild.id);
-		if (!queue) return message.reply('There is nothing playing.').then(s => s.delete({ timeout: 30 * 1000 }));
+		if (!queue) return message.lineReply('There is nothing playing.').then(s => s.delete({ timeout: 30 * 1000 }));
 		const song = queue.songs[0];
 		const time = await queue.connection.dispatcher.totalStreamTime;
 

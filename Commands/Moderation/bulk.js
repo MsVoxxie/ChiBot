@@ -19,7 +19,7 @@ module.exports = {
 		let Amount = parseInt(args[0]);
 
 		// Check if Amount is provided
-		if (!Amount) return message.reply('\nPlease provide the number of messages you\'d like deleted.');
+		if (!Amount) return message.lineReply('\nPlease provide the number of messages you\'d like deleted.');
 		if (Amount >= 100) {
 			Amount = 99;
 		}
@@ -67,8 +67,8 @@ module.exports = {
 				});
 			}
 			// Do the purge.
-			await message.channel.bulkDelete(messages).catch(err => message.reply(`\nAn error occured:\n**${err.message}**`));
-			await message.reply(`\nPurge Successful, Deleted \`${Amount}\` messages ${from}`);
+			await message.channel.bulkDelete(messages).catch(err => message.lineReply(`\nAn error occured:\n**${err.message}**`));
+			await message.lineReply(`\nPurge Successful, Deleted \`${Amount}\` messages ${from}`);
 		});
 
 	},

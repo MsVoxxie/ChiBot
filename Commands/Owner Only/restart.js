@@ -7,11 +7,11 @@ module.exports = {
 	botPerms: ['MANAGE_MESSAGES'],
 	async execute(bot, message, args) {
 		try {
-			await message.reply('Restarting!');
+			await message.lineReply('Restarting!');
 			process.exit(1);
 		}
 		catch (e) {
-			message.reply(`\nERROR: ${e.message}`);
+			message.lineReply(`\nERROR: ${e.message}`);
 		}
 	},
 };

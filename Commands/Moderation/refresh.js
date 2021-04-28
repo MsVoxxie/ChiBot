@@ -21,7 +21,7 @@ module.exports = {
 		const oldPos = oldChan.position;
 
 		const filter = m => m.author.id === message.author.id;
-		message.reply('\nAre you sure you want to delete the contents of this channel? This cannot be undone.\nType `yes` to confirm, or `no` to cancel.').then(s => s.delete({ timeout: 30 * 1000 }));
+		message.lineReply('\nAre you sure you want to delete the contents of this channel? This cannot be undone.\nType `yes` to confirm, or `no` to cancel.').then(s => s.delete({ timeout: 30 * 1000 }));
 		message.channel.awaitMessages(filter, {
 			max: 1,
 			time: 30 * 1000,
@@ -55,7 +55,7 @@ module.exports = {
 
 				}
 				else {
-					return message.reply('\nCancelled.').then(s => s.delete({ timeout: 30 * 1000 }));
+					return message.lineReply('\nCancelled.').then(s => s.delete({ timeout: 30 * 1000 }));
 				}
 			});
 	},

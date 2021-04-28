@@ -10,12 +10,12 @@ module.exports = {
 
 		if (bot.debug === false) {
 			bot.debug = true;
-			return message.reply('\nToggled debug mode `ON` for this session.').then(s => s.delete({ timeout: 30 * 1000 }));
+			return message.lineReply('\nToggled debug mode `ON` for this session.').then(s => s.delete({ timeout: 30 * 1000 }));
 		}
 
 		if (bot.debug === true) {
 			bot.debug = false;
-			return message.reply('\nToggled debug mode `OFF`for this session.').then(s => s.delete({ timeout: 30 * 1000 }));
+			return message.lineReply('\nToggled debug mode `OFF`for this session.').then(s => s.delete({ timeout: 30 * 1000 }));
 		}
 	},
 };
