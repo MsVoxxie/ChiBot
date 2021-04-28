@@ -25,7 +25,9 @@ bot.on('message', async message => {
 			if (message.author.id != bot.user.id) {
 				if (!message.content.startsWith(prefix)) {
 					// message.reply('\nPlease do not talk in this channel, It is only for role assignment.').then(s => s.delete({ timeout: 30 * 1000 }));
-					message.delete({ timeout: 15 * 1000 });
+					if(bot.HasChannelPermission(message, 'MANAGE_MESSAGES')) {
+						message.delete({ timeout: 15 * 1000 });
+					}
 					return;
 				}
 			}
@@ -71,7 +73,11 @@ bot.on('message', async message => {
 
 	// Check if command is Disabled
 	if (command.disabled && command.disabled === true) {
-		return message.reply(`\nSorry, The command \`${command.name}\` is disabled.`).then(s => s.delete({ timeout: 30 * 1000 }));
+		return message.reply(`\nSorry, The command \`${command.name}\` is disabled.`).then(s => {
+			if(bot.HasChannelPermission(s, 'MANAGE_MESSAGES')) {
+				s.delete({ timeout: 30 * 1000 });
+			}
+		});
 	}
 
 	// Check if args are required
@@ -83,7 +89,11 @@ bot.on('message', async message => {
 	if (command.userPerms) {
 		const usermissing = message.channel.permissionsFor(message.author).missing(command.userPerms);
 		if (usermissing.length > 0) {
-			return message.reply(`\nSorry, The command \`${command.name}\` requires the following permissions:\n\`${usermissing.map(perm => permissions[perm]).join(', ')}\``).then(s => s.delete({ timeout: 30 * 1000 }));
+			return message.reply(`\nSorry, The command \`${command.name}\` requires the following permissions:\n\`${usermissing.map(perm => permissions[perm]).join(', ')}\``).then(s => {
+				if(bot.HasChannelPermission(s, 'MANAGE_MESSAGES')) {
+					s.delete({ timeout: 30 * 1000 });
+				}
+			});
 		}
 	}
 
@@ -91,7 +101,11 @@ bot.on('message', async message => {
 	if (command.botPerms) {
 		const botmissing = message.channel.permissionsFor(message.guild.me).missing(command.botPerms);
 		if (botmissing.length > 0) {
-			return message.reply(`\nI cannot execute the command \`${command.name}\`, I'm missing the the following permissions:\n\`${botmissing.map(perm => permissions[perm]).join(', ')}\``).then(s => s.delete({ timeout: 30 * 1000 }));
+			return message.reply(`\nI cannot execute the command \`${command.name}\`, I'm missing the the following permissions:\n\`${botmissing.map(perm => permissions[perm]).join(', ')}\``).then(s => {
+				if(bot.HasChannelPermission(s, 'MANAGE_MESSAGES')) {
+					s.delete({ timeout: 30 * 1000 });
+				}
+			});
 		}
 	}
 
@@ -105,7 +119,7 @@ bot.on('message', async message => {
 		if (command) {
 			if (message) {
 				if (message.channel) {
-					if (message.channel.permissionsFor(message.guild.me).missing('MANAGE_MESSAGES')) {
+					if(bot.HasChannelPermission(message, 'MANAGE_MESSAGES')) {
 						message.delete({ timeout: 60 * 1000 }).catch(err => console.error(err));
 					}
 				}

@@ -16,13 +16,20 @@ bot.on('messageUpdate', async (oldMessage, newMessage) => {
 		console.error(error);
 	}
 
+	const prefixMention = new RegExp(`^<@!?${bot.user.id}> `);
+	const prefixes = [message.content.match(prefixMention) ? message.content.match(prefixMention)[0] : settings.prefix, 'chi,'];
+	// const prefix = message.content.match(prefixMention) ? message.content.match(prefixMention)[0] : settings.prefix;
+	const prefix = prefixes.find(p => message.content.startsWith(p.toLowerCase()));
+
 	// Check if users are improperly using role assignment channel.
 	if (!isNaN(settings.roleAssignChannel)) {
 		if (message.channel.id === settings.roleAssignChannel) {
 			if (message.author.id != bot.user.id) {
-				if (!message.content.startsWith(settings.prefix)) {
-					message.reply('\nPlease do not talk in this channel, It is only for role assignment.').then(s => s.delete({ timeout: 30 * 1000 }));
-					message.delete({ timeout: 5 * 1000 });
+				if (!message.content.startsWith(prefix)) {
+					// message.reply('\nPlease do not talk in this channel, It is only for role assignment.').then(s => s.delete({ timeout: 30 * 1000 }));
+					if(bot.HasChannelPermission(message, 'MANAGE_MESSAGES')) {
+						message.delete({ timeout: 15 * 1000 });
+					}
 					return;
 				}
 			}
@@ -52,7 +59,11 @@ bot.on('messageUpdate', async (oldMessage, newMessage) => {
 		const expireationTime = timestamps.get(message.author.id) + cooldownAmount;
 		if (now < expireationTime) {
 			const timeLeft = (expireationTime - now);
-			return message.reply(`Please wait ${ms(timeLeft)} before using \`${command.name}\``).then(s => s.delete({ timeout: 30 * 1000 }));
+			return message.reply(`Please wait ${ms(timeLeft)} before using \`${command.name}\``).then(s => {
+				if(bot.HasChannelPermission(s, 'MANAGE_MESSAGES')) {
+					s.delete({ timeout: 30 * 1000 });
+				}
+			});
 		}
 	}
 
@@ -68,7 +79,11 @@ bot.on('messageUpdate', async (oldMessage, newMessage) => {
 
 	// Check if command is Disabled
 	if (command.disabled && command.disabled === true) {
-		return message.reply(`\nSorry, The command \`${command.name}\` is disabled.`).then(s => s.delete({ timeout: 30 * 1000 }));
+		return message.reply(`\nSorry, The command \`${command.name}\` is disabled.`).then(s => {
+			if(bot.HasChannelPermission(s, 'MANAGE_MESSAGES')) {
+				s.delete({ timeout: 30 * 1000 });
+			}
+		});
 	}
 
 	// Check if args are required
@@ -80,7 +95,11 @@ bot.on('messageUpdate', async (oldMessage, newMessage) => {
 	if (command.userPerms) {
 		const usermissing = message.channel.permissionsFor(message.author).missing(command.userPerms);
 		if (usermissing.length > 0) {
-			return message.reply(`\nSorry, The command \`${command.name}\` requires the following permissions:\n\`${usermissing.map(perm => permissions[perm]).join(', ')}\``).then(s => s.delete({ timeout: 30 * 1000 }));
+			return message.reply(`\nSorry, The command \`${command.name}\` requires the following permissions:\n\`${usermissing.map(perm => permissions[perm]).join(', ')}\``).then(s => {
+				if(bot.HasChannelPermission(s, 'MANAGE_MESSAGES')) {
+					s.delete({ timeout: 30 * 1000 });
+				}
+			});
 		}
 	}
 
@@ -88,7 +107,11 @@ bot.on('messageUpdate', async (oldMessage, newMessage) => {
 	if (command.botPerms) {
 		const botmissing = message.channel.permissionsFor(message.guild.me).missing(command.botPerms);
 		if (botmissing.length > 0) {
-			return message.reply(`\nI cannot execute the command \`${command.name}\`, I'm missing the the following permissions:\n\`${botmissing.map(perm => permissions[perm]).join(', ')}\``).then(s => s.delete({ timeout: 30 * 1000 }));
+			return message.reply(`\nI cannot execute the command \`${command.name}\`, I'm missing the the following permissions:\n\`${botmissing.map(perm => permissions[perm]).join(', ')}\``).then(s => {
+				if(bot.HasChannelPermission(s, 'MANAGE_MESSAGES')) {
+					s.delete({ timeout: 30 * 1000 });
+				}
+			});
 		}
 	}
 
@@ -102,7 +125,7 @@ bot.on('messageUpdate', async (oldMessage, newMessage) => {
 		if (command) {
 			if (message) {
 				if (message.channel) {
-					if (message.channel.permissionsFor(message.guild.me).missing('MANAGE_MESSAGES')) {
+					if(bot.HasChannelPermission(message, 'MANAGE_MESSAGES')) {
 						message.delete({ timeout: 60 * 1000 }).catch(err => console.error(err));
 					}
 				}

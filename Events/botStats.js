@@ -4,7 +4,6 @@ const fs = require('fs');
 const moment = require('moment');
 require('moment-duration-format');
 
-
 function BotStats() {
 	setTimeout(async () => {
 

@@ -1,7 +1,7 @@
 const { bot } = require('../CleanChiBot');
 const ms = require('ms');
 
-const timeoutLimit = '10s';
+const timeoutLimit = '30s';
 
 bot.on('voiceStateUpdate', async (oldState, newState) => {
 	// If we arent in a vc, ignore.
