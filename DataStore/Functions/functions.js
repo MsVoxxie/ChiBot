@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
 // const usersDB = require('../Database Models/Schematics/User.js');
-const { Guild, User } = require('../Database Models');
+const { Guild, GuildRoles, User } = require('../Database Models');
 
 module.exports = bot => {
 
@@ -43,6 +43,36 @@ module.exports = bot => {
 		return newMember.save().then(console.log(`New user Created: ${settings.tag} in Guild: ${settings.guildName}`));
 	};
 
+	// Guild Roles
+	bot.getRoles = async (guild) => {
+		const data = await GuildRoles.findOne({ guildID: guild.id });
+		if(data) {return data;}
+		else {
+			const newRoles = {
+				guildName: guild.name,
+				guildID: guild.id,
+				assignableRoles: [],
+			};
+			return bot.createRoles(newRoles);
+		}
+	};
+
+	bot.updateRoles = async (guild, settings) => {
+		let data = await bot.getRoles(guild);
+		if (typeof data !== 'object') data = {};
+		for (const key in settings) {
+			if (data[key] !== settings[key]) data[key] = settings[key];
+			else return;
+		}
+		if(bot.debug) {console.log(`Guild ${guild.name} updated it's role data: ${Object.keys(settings)}`);}
+		return await data.updateOne(settings);
+	};
+
+	bot.createRoles = async (guild) => {
+		const newGuild = await new GuildRoles(guild);
+		return newGuild.save().then(console.log(`New GuildRoles array created for ${guild.guildName}`));
+	};
+
 	// Database Functions
 	bot.getGuild = async (guild) => {
 		const data = await Guild.findOne({ guildID: guild.id });
@@ -72,10 +102,10 @@ module.exports = bot => {
 
 	// Bot Util Functions
 
-	bot.HasChannelPermission = async (message, permission) => {
-		if(message) {
+	bot.HasChannelPermission = async (channel, permission) => {
+		if(channel) {
 			try {
-				return message.channel.permissionsFor(message.guild.me).has(`${permission}`);
+				return channel.permissionsFor(channel.guild.me).has(`${permission}`);
 			}
 			catch (error) {
 				console.error(error);
@@ -118,5 +148,19 @@ module.exports = bot => {
 	};
 
 	bot.trim = (str, max) => ((str.length > max) ? `${str.slice(0, max - 3)}...` : str);
+
+	bot.chunkArray = (array, size) => {
+		const result = [];
+		for (value of array) {
+			const lastArray = result[result.length - 1 ];
+			if(!lastArray || lastArray.length == size) {
+				result.push([value]);
+			}
+			else{
+				lastArray.push(value);
+			}
+		}
+		return result;
+	};
 
 };

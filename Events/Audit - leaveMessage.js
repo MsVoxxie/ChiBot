@@ -21,7 +21,9 @@ bot.on('guildMemberRemove', async member => {
 			embed.setDescription(`${member} left the server.`);
 
 			// Send it
-			auditChan.send({ embed: embed });
+			if(bot.HasChannelPermission(auditChan, 'SEND_MESSAGES')) {
+				await auditChan.send({ embed: embed });
+			}
 		}
 		catch (e) {
 			console.log(e);

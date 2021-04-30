@@ -26,8 +26,8 @@ bot.on('messageUpdate', async (oldMessage, newMessage) => {
 			.setFooter(bot.Timestamp(new Date()));
 
 		// Send It
-
-		await logChan.send({ embed: embed });
-
+		if(bot.HasChannelPermission(logChan, 'SEND_MESSAGES')) {
+			await logChan.send({ embed: embed });
+		}
 	}
 });

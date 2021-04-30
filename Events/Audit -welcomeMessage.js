@@ -46,7 +46,9 @@ bot.on('guildMemberAdd', async member => {
 			embed.setDescription([replaced]);
 
 			// Send it
-			welcomeChan.send({ embed: embed });
+			if(bot.HasChannelPermission(welcomeChan, 'SEND_MESSAGES')) {
+				welcomeChan.send({ embed: embed });
+			}
 		}
 		catch (e) {
 			console.log(e);
@@ -61,7 +63,9 @@ bot.on('guildMemberAdd', async member => {
 			embed.addField('Additional Information›', `**User Tag›** ${member.user.tag}\n**User-ID›** ${member.user.id}`);
 
 			// Send it
-			auditChan.send({ embed: embed });
+			if(bot.HasChannelPermission(auditChan, 'SEND_MESSAGES')) {
+				await auditChan.send({ embed: embed });
+			}
 		}
 		catch (e) {
 			console.log(e);

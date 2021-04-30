@@ -43,7 +43,8 @@ bot.on('messageDelete', async message => {
 		.setFooter(bot.Timestamp(new Date()));
 
 	// Send It
-
-	await logChan.send({ embed: embed });
+	if(bot.HasChannelPermission(logChan, 'SEND_MESSAGES')) {
+		await logChan.send({ embed: embed });
+	}
 
 });

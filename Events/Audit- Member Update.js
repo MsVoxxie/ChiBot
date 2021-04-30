@@ -20,7 +20,10 @@ bot.on('guildMemberUpdate', async (oldMember, newMember) => {
 				{ name: 'New Nikcname›', value: `${newMember.nickname}` },
 				{ name: 'Additional Information›', value: `**Member-ID›** ${oldMember.id}` },
 			);
-		await logChan.send({ embed: embed });
+		// Send It
+		if(bot.HasChannelPermission(logChan, 'SEND_MESSAGES')) {
+			await logChan.send({ embed: embed });
+		}
 		await bot.updateMember(newMember, { nickname: newMember.nickname });
 	}
 
