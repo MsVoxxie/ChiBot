@@ -5,3 +5,4 @@ Commands/Streaming/channels.json
 Commands/Owner Only/forceinvite.js
 DataStore/BotStatistics
 giveaways.json
+Commands/Roles/rolelist.js
