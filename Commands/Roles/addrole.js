@@ -57,6 +57,7 @@ module.exports = {
                     r.id !== message.guild.id &&
                     !r.name.includes('Trusted') &&
                     !r.name.includes('Nitro') &&
+					!r.name.includes('Muted') &&
                     !r.name.includes('-')
 				) {return r.name;}
 			})
