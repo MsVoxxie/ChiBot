@@ -6,3 +6,4 @@ Commands/Owner Only/forceinvite.js
 DataStore/BotStatistics
 giveaways.json
 DataStore/Blacklists
+DataStore/Points.json
