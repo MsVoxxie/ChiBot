@@ -47,7 +47,7 @@ bot.on('message', async message => {
 	// if (!command) return message.delete({ timeout: 30 * 1000 });
 
 	// Cooldown Manager
-	if(command.cooldown === 0) {
+	if(command.cooldown !== 0) {
 		if (!bot.cooldowns.has(command.name)) { bot.cooldowns.set(command.name, new Collection()); }
 
 		const now = Date.now();

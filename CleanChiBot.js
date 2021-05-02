@@ -19,6 +19,10 @@ bot.commands = new Discord.Collection();
 bot.aliases = new Discord.Collection();
 bot.cooldowns = new Discord.Collection();
 
+// TempChannels
+bot.tempchannels = [];
+bot.tempid = 0;
+
 // MusicBot
 bot.queue = new Map();
 

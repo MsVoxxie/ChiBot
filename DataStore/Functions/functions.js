@@ -162,5 +162,4 @@ module.exports = bot => {
 		}
 		return result;
 	};
-
 };
