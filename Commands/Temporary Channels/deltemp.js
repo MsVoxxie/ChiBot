@@ -6,7 +6,7 @@ module.exports = {
 	category: '',
 	usage: '',
 	hidden: true,
-	ownerOnly: true,
+	ownerOnly: false,
 	userPerms: ['SEND_MESSAGES'],
 	botPerms: ['MANAGE_CHANNELS', 'MANAGE_MESSAGES'],
 	async execute(bot, message, args, settings) {

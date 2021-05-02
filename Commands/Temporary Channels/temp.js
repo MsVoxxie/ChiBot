@@ -1,3 +1,5 @@
+const { MessageEmbed } = require('discord.js');
+
 module.exports = {
 	name: 'temp',
 	aliases: ['tc'],
@@ -6,7 +8,7 @@ module.exports = {
 	category: 'Temporary Channels',
 	usage: '',
 	hidden: true,
-	ownerOnly: true,
+	ownerOnly: false,
 	userPerms: ['SEND_MESSAGES'],
 	botPerms: ['MANAGE_CHANNELS', 'MANAGE_MESSAGES'],
 	async execute(bot, message, args, settings) {
@@ -33,6 +35,13 @@ module.exports = {
 			},
 		];
 
+		// Setup embed
+		const embed = new MessageEmbed()
+			.setTitle(`Welcome to ${message.member.user.tag}'s Private Channels`)
+			.setColor(settings.color)
+			.setDescription(`<@!${message.member.id}>\nPlease use the \`${settings.prefix}deltemp\` command once you are done with the channels!`)
+			.setTimestamp();
+
 		// Create Category and Channels
 		const Category = await message.guild.channels.create(`${bot.trim(`${message.member.nickname ? message.member.nickname : message.member.user.tag}`, 20)}'s Channels`, {
 			type: 'category',
@@ -55,10 +64,12 @@ module.exports = {
 
 		// Set Parents
 		await Voice.setParent(Category, { lockPermissions:true });
-		await Text.setParent(Category, { lockPermissions:true });
+		await Text.setParent(Category, { lockPermissions:true }).then(s => s.send({ embed: embed }));
 		await bot.tempchannels.push({ id: bot.tempid, guild: message.guild, owner: message.author, category: Category });
 		console.log(bot.tempid);
 		bot.tempid++;
+
+		// Send Messages
 		await message.lineReply(`Created your personal Category ${Category.name}`).then(s => s.delete({ timeout: 30 * 1000 }));
 	},
 };
