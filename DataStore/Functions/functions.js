@@ -148,18 +148,4 @@ module.exports = bot => {
 	};
 
 	bot.trim = (str, max) => ((str.length > max) ? `${str.slice(0, max - 3)}...` : str);
-
-	bot.chunkArray = (array, size) => {
-		const result = [];
-		for (value of array) {
-			const lastArray = result[result.length - 1 ];
-			if(!lastArray || lastArray.length == size) {
-				result.push([value]);
-			}
-			else{
-				lastArray.push(value);
-			}
-		}
-		return result;
-	};
 };

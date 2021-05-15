@@ -1,12 +1,8 @@
 module.exports = {
 	name: 'deltemp',
 	aliases: ['dt'],
-	description: '',
-	example: '',
-	category: '',
-	usage: '',
-	hidden: true,
-	ownerOnly: false,
+	description: 'Delete your created temporary channel',
+	category: 'TempChans',
 	userPerms: ['SEND_MESSAGES'],
 	botPerms: ['MANAGE_CHANNELS', 'MANAGE_MESSAGES'],
 	async execute(bot, message, args, settings) {

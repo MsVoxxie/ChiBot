@@ -65,7 +65,7 @@ module.exports = {
 		const embed = new MessageEmbed()
 			.setAuthor(message.member.user.tag, message.author.displayAvatarURL({ dynamic: true }))
 			.setColor(settings.color)
-			.setDescription(`To Add a role please use \`a <rolename>\`\nTo Remove a role please use \`r <rolename>\nOnce you're finished type \`finish\`\n\nRoles to Add› ${assignList.length > 0 ? assignList.map(r => r.name).join(', ') : 'None'}\n\nRoles to Remove› ${removeList.length > 0 ? removeList.map(r => r.name).join(', ') : 'None'}`);
+			.setDescription(`To Add a role please use \`a <rolename>\`\nTo Remove a role please use \`r <rolename>\`\nOnce you're finished type \`finish\`\n\nRoles to Add› ${assignList.length > 0 ? assignList.map(r => r.name).join(', ') : 'None'}\n\nRoles to Remove› ${removeList.length > 0 ? removeList.map(r => r.name).join(', ') : 'None'}`);
 
 		// Collector
 		const filter = m => m.author === message.author;

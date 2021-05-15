@@ -12,7 +12,7 @@ const authProvider = new ClientCredentialsAuthProvider(clientId, accessToken);
 const Twitch = new ApiClient({ authProvider });
 
 module.exports = {
-	name: 'forcecheck',
+	name: 'getstream',
 	aliases: ['forcestream'],
 	description: 'Forcefully request streams status.',
 	category: 'Streaming',

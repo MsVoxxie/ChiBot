@@ -6,10 +6,7 @@ module.exports = {
 	name: 'help',
 	aliases: ['h'],
 	description: 'Display list of Commands',
-	example: '',
 	category: 'Utility',
-	usage: '',
-	hidden: false,
 	botPerms: ['MANAGE_MESSAGES'],
 	async execute(bot, message, args, settings) {
 
@@ -33,6 +30,9 @@ module.exports = {
 		Categories.forEach(Cat => {
 			const dir = bot.commands.filter(c => {
 				if (!c.hidden) {
+					if(c.category === Cat) {
+						console.log(`${Cat}> ${c.name}`);
+					}
 					return c.category === Cat;
 				}
 			});
@@ -40,13 +40,13 @@ module.exports = {
 			const capitalize = Cat.slice(0, 1).toUpperCase() + Cat.slice(1);
 
 			fullHelp
-				.addField(`${capitalize} [${dir.size}] ›`, dir.map(command => `**${command.name}**${command.disabled ? '<:xmark:753802620682109019>' : ''}${command.nsfw ? '🔞' : ''}${command.ownerOnly ? '🔒' : ''} › ${command.description ? command.description : ''}`).join('\n'));
+				.addField(`${capitalize ? capitalize : 'Missing Category Name'} [${dir.size}] ›`, dir.map(command => `**${command.name}**${command.disabled ? '<:xmark:753802620682109019>' : ''}${command.nsfw ? '🔞' : ''}${command.ownerOnly ? '🔒' : ''} › ${command.description ? command.description : ''}`).join('\n'));
 
 
 			const embed = new MessageEmbed()
 				.setAuthor(`${bot.user.username}'s Commands List`, bot.user.displayAvatarURL({ dynamic: true }))
 				.setDescription(`Command prefix is: ${settings.prefix}\nTo view more information on a command, use \`${settings.prefix}help <command>\`\nTo view the full list use \`${settings.prefix}help all\`\n🔞 Represents an NSFW Command.\n🔒 Represents a Locked Command.\n<:xmark:753802620682109019> Represents a Disabled Command.\n`)
-				.addField(`${capitalize} [${dir.size}] ›`, dir.map(command => `**${command.name}**${command.nsfw ? '🔞' : ''}${command.ownerOnly ? '🔒' : ''} › ${command.description ? command.description : ''}`).join('\n'))
+				.addField(`${capitalize ? capitalize : 'Missing Category Name'} [${dir.size}] ›`, dir.map(command => `**${command.name}**${command.nsfw ? '🔞' : ''}${command.ownerOnly ? '🔒' : ''} › ${command.description ? command.description : ''}`).join('\n'))
 				.setColor(settings.color);
 
 			embeds.push(embed);

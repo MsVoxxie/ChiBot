@@ -49,7 +49,7 @@ bot.on('messageUpdate', async (oldMessage, newMessage) => {
 	// if (!command) return message.delete({ timeout: 30 * 1000 });
 
 	// Cooldown Manager
-	if(command.cooldown === 0) {
+	if(command.cooldown !== 0) {
 		if (!bot.cooldowns.has(command.name)) { bot.cooldowns.set(command.name, new Collection()); }
 
 		const now = Date.now();
@@ -69,11 +69,6 @@ bot.on('messageUpdate', async (oldMessage, newMessage) => {
 			timestamps.delete(message.author.id);
 		}, cooldownAmount);
 	}
-
-	timestamps.set(message.author.id, now);
-	setTimeout(() => {
-		timestamps.delete(message.author.id);
-	}, cooldownAmount);
 
 	// Check if command is Owner Only
 	if (command.ownerOnly && !bot.Owners.includes(message.member.id)) {

@@ -4,11 +4,7 @@ module.exports = {
 	name: 'temp',
 	aliases: ['tc'],
 	description: 'Creates a temporary voice and text channel.',
-	example: '',
-	category: 'Temporary Channels',
-	usage: '',
-	hidden: true,
-	ownerOnly: false,
+	category: 'TempChans',
 	userPerms: ['SEND_MESSAGES'],
 	botPerms: ['MANAGE_CHANNELS', 'MANAGE_MESSAGES'],
 	async execute(bot, message, args, settings) {
